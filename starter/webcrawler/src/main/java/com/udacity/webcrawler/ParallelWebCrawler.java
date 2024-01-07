@@ -4,16 +4,12 @@ import com.udacity.webcrawler.json.CrawlResult;
 import com.udacity.webcrawler.parser.PageParserFactory;
 
 import javax.inject.Inject;
-import javax.inject.Provider;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 import java.util.regex.Pattern;
 
 /**
@@ -47,6 +43,12 @@ final class ParallelWebCrawler implements WebCrawler {
     this.parserFactory = parserFactory;
   }
 
+  /**
+   * Computes the crawl result.
+   *
+   * @param startingUrls the URLs to crawl.
+   * @return the {@link CrawlResult}.
+   */
   @Override
   public CrawlResult crawl(List<String> startingUrls) {
       Instant deadline = clock.instant().plus(timeout);

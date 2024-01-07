@@ -56,6 +56,11 @@ public class DataCrawler extends RecursiveTask<Boolean> {
         return true;
     }
 
+    /**
+     * Checks if the crawling task should stop.
+     * 
+     * @return true if the task should stop, false otherwise.
+     */
     private boolean shouldStopCrawling() {
         if (maxDepth == 0 || clock.instant().isAfter(deadline)) {
             return true;
@@ -68,20 +73,40 @@ public class DataCrawler extends RecursiveTask<Boolean> {
         return false;
     }
 
+    /**
+     * Checks if the URL is ignored.
+     * 
+     * @return true if the URL is ignored, false otherwise.
+     */
     private boolean isUrlIgnored() {
         return ignoredUrls.stream().anyMatch(pattern -> pattern.matcher(url).matches());
     }
 
+    /**
+     * Parses the page.
+     * 
+     * @return the result of the page parsing.
+     */
     private PageParser.Result parsePage() {
         return parserFactory.get(url).parse();
     }
 
+    /**
+     * Updates the word counts.
+     * 
+     * @param result the result of the page parsing.
+     */
     private void updateWordCounts(PageParser.Result result) {
         for (ConcurrentMap.Entry<String, Integer> e : result.getWordCounts().entrySet()) {
             counts.compute(e.getKey(), (k, v) -> (v == null) ? e.getValue() : e.getValue() + v);
         }
     }
 
+    /**
+     * Crawls the links.
+     * 
+     * @param result the result of the page parsing.
+     */
     private void crawlLinks(PageParser.Result result) {
         List<DataCrawler> subtasks = new ArrayList<>();
         for (String link : result.getLinks()) {

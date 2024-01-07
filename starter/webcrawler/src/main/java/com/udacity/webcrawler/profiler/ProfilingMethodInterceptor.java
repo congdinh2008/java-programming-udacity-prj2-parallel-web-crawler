@@ -25,6 +25,17 @@ final class ProfilingMethodInterceptor implements InvocationHandler {
     this.delegate = Objects.requireNonNull(delegate);
   }
 
+  /**
+   * A method interceptor that checks whether {@link Method}s are annotated with the {@link
+   * Profiled} annotation. If they are, the method interceptor records how long the method
+   * invocation took.
+   *
+   * @param proxy  the proxy object.
+   * @param method the method being called.
+   * @param args   the arguments to the method call.
+   * @return the result of the method call.
+   * @throws Throwable if the method call throws an exception.
+   */
   @Override
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     // This method interceptor should inspect the called method to see if it is a profiled
@@ -47,6 +58,13 @@ final class ProfilingMethodInterceptor implements InvocationHandler {
     return result;
   }
 
+  /**
+   * Records the duration of a method invocation if the method is profiled.
+   *
+   * @param profiled whether the method is profiled.
+   * @param start    the start time of the method invocation.
+   * @param method   the method being called.
+   */
   private void recordIfProfiled(boolean profiled, Instant start, Method method) {
     if (profiled) {
         Duration duration = Duration.between(start, clock.instant());

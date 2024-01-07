@@ -29,6 +29,9 @@ final class ProfilerImpl implements Profiler {
     this.startTime = ZonedDateTime.now(clock);
   }
 
+  /**
+   * Returns the {@link ProfilingState} object that this class uses to track profiling data.
+   */
   @Override
   public <T> T wrap(Class<T> klass, T delegate) {
     Objects.requireNonNull(klass);
@@ -47,6 +50,9 @@ final class ProfilerImpl implements Profiler {
     return (T) Proxy.newProxyInstance(ProfilerImpl.class.getClassLoader(), new Class[] {klass}, pmi);
   }
 
+  /**
+   * Returns the {@link ProfilingState} object that this class uses to track profiling data.
+   */
   @Override
   public void writeData(Path path) throws IOException {
     // Write the ProfilingState data to the given file path. If a file already exists at that
@@ -61,6 +67,9 @@ final class ProfilerImpl implements Profiler {
     }
   }
 
+  /**
+   * Writes the {@link ProfilingState} data to the given {@link Writer}.
+   */
   @Override
   public void writeData(Writer writer) throws IOException {
     writer.write("Run at " + RFC_1123_DATE_TIME.format(startTime));

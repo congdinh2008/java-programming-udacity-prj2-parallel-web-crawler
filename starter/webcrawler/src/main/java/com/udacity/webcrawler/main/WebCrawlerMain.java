@@ -32,6 +32,9 @@ public final class WebCrawlerMain {
   @Inject
   private Profiler profiler;
 
+  /**
+   * Runs the web crawler.
+   */
   private void run() throws Exception {
     Guice.createInjector(new WebCrawlerModule(config), new ProfilerModule()).injectMembers(this);
 
