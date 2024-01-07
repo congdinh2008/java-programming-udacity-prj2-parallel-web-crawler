@@ -28,8 +28,9 @@ public final class ConfigurationLoaderTest {
         " }";
 
     Reader reader = new StringReader(json);
-    CrawlerConfiguration config = ConfigurationLoader.read(reader);
+    CrawlerConfiguration config = null;
     try {
+      config = ConfigurationLoader.read(reader);
       assertThat(reader.ready()).isTrue();
     } catch (IOException e) {
       fail("Streams should usually be closed in the same scope where they were created", e);
@@ -60,8 +61,9 @@ public final class ConfigurationLoaderTest {
         " }";
 
     Reader reader = new StringReader(json);
-    CrawlerConfiguration config = ConfigurationLoader.read(reader);
+    CrawlerConfiguration config = null;
     try {
+      config = ConfigurationLoader.read(reader);
       assertThat(reader.ready()).isTrue();
     } catch (IOException e) {
       fail("Streams should usually be closed in the same scope where they were created", e);
