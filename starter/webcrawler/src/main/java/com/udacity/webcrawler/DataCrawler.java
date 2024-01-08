@@ -47,7 +47,10 @@ public class DataCrawler extends RecursiveTask<Boolean> {
             return false;
         }
 
-        visitedUrls.add(url);
+        if(!visitedUrls.add(url)) {
+            return false;
+        }
+
         PageParser.Result result = parsePage();
 
         updateWordCounts(result);
@@ -66,7 +69,7 @@ public class DataCrawler extends RecursiveTask<Boolean> {
             return true;
         }
 
-        if (isUrlIgnored() || visitedUrls.contains(url)) {
+        if (isUrlIgnored()) {
             return true;
         }
 
